@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quote Generator</title>
+    <!-- Bootstrap Cdn -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+        <!--Css Styles  -->
+        <link rel="stylesheet" href="/styles/index.css">
+
+</head>
+
+<body>
+  <%- include("./layouts/header.ejs") %>      
+
+
+    <div class="container-fluid">
+
+        <div class="container quoteBox d-flex flex-column justify-content-center align-items-center  ">
+            <h2 class="text-center text-capitalize text-secondary my-3">Wecome To the Quote App</h2>
+
+          <div class="qoutes">                 
+           <div class="card quoteCard shadow-lg my-3" > 
+                    <div class="card-header"> Quote <%=data._id%> 
+                     
+                   </div> 
+                  <div class="card-body p-5 bg-light"> 
+                     <blockquote class="blockquote mb-0">
+                         <p><%= data.qoute%></p> 
+                         <footer class="blockquote-footer author mt-5 text-end "s>Author:
+                             <cite title="Source Title"><%= data.name %></cite>
+                            </footer>
+                             </blockquote>
+                   </div>
+            </div>          
+        </div>
+
+        <button class="btn btn-outline-primary refreshBtn my-4" onclick="window.location.reload();">Load Quote</button> 
+
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
