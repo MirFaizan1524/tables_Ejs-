@@ -1,14 +1,22 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-let portNumber = 3000;
-
+require('dotenv').config();  
+const cookieParser = require('cookie-parser');
+const dbConnect = require('./db/dbfile.js');
 app.set('veiw engine',"ejs");
 app.set('veiws',path.join(__dirname,'veiws'));
 app.use(express.urlencoded({extended:true}));
 app.use(express.static("public"));
+app.use(express.json());
+app.use(cookieParser());
+ // Connecting to the Database: 
+dbConnect().then(()=>{
+  console.log(`Connected to DataBase`); 
 
-
+}).catch((err)=>{
+    console.log(`Cant Connect To the db ${err}`); 
+})
 let quoteArray = [
     {
     _id:1,
@@ -64,22 +72,22 @@ let quoteArray = [
 ]
 
 
-
+    // possible Routes:
+const registerUser = require('./routes/register.route.js');
+const loginUser = require('./routes/login.route.js');
+const dashboardUser = require('./routes/dashboard.route.js');
+app.use('/',registerUser);
+app.use('/',loginUser);
+app.use('/',dashboardUser);
 app.get('/',(req,res)=>{
    let randomQuote = Math.floor(Math.random(quoteArray) *quoteArray.length);
-   console.log(randomQuote);
-     
+   console.log(randomQuote);     
  res.render('index.ejs',{data:quoteArray[randomQuote]});
 })
-
 app.get('/table',(req,res)=>{   
   res.render('table.ejs',{data:quoteArray});
  })
 
-
-
-
-
-app.listen(portNumber,()=>{
-  console.log(`listening to the portNumber ${portNumber}`); 
+app.listen(process.env.PORT_NUMBER,()=>{
+  console.log(`listening to the portNumber ${process.env.PORT_NUMBER}`); 
 })

@@ -32,7 +32,7 @@
 <body>
     <%- include("./layouts/header.ejs") %>  
     
-    <table id="quotesTable" class="" >
+    <table id="quotesTable" class="table table-bordered" >
         <thead>
             <tr>
                 <th>ID</th>
@@ -73,8 +73,8 @@ $(document).ready(function(){
      },
     {
       "targets":[2],  // targets particular column
-      "visible":false,  // sets specific col visible/invisible
-      "searchable":false, // makes search possible/impossible for a specific column
+      "visible":true,  // sets specific col visible/invisible
+      "searchable":true, // makes search possible/impossible for a specific column
 
     }],
      "searching":true, // enables/disables whole searching    
