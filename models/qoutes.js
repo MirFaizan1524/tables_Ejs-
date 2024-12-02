@@ -1,17 +1,19 @@
 const mongoose = require('mongoose');
 const qouteSchema = new mongoose.Schema({
-     QouteName:{
+     qouteName:{
         type:String,
         required:true,
         lowercase:true
      },
      author:{
         type:String,
+        required:true,
         default:"unknown"
      },
      postedBy:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"User"
+        ref:"User",
+        required:true
      } 
 
 },{timestamps:true});

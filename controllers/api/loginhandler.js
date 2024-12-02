@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 
 let loginHandler = async(req,res)=>{
-       
+
     try{
          const {email,password} = await req.body;  
 
@@ -31,8 +31,15 @@ let loginHandler = async(req,res)=>{
                     console.log("User Logged In Successfully");
                    let token = await jwt.sign({id:exisitingUser._id},process.env.SECRET_KEY);
                    console.log(token);  
-                     res.cookie('jwt',token,{httpOnly:true});  
-                     return res.redirect('dashboard');                         
+                    //  res.cookie('jwt',token,{httpOnly:true}); // to use crendentails in browser
+                    //  Using Sessions to Enable Protected Communication on Routes 
+                     req.session.user = token;                   
+                      console.log(req.session.user,"SessionToken");  
+                      return res.status(201).json({
+                        message:"User Logged In SuccessFully",
+                        user:exisitingUser,
+                        token: req.session.user
+                      })                         
                  }
                  else{
                     console.log("Please Enter Right Password");

@@ -3,6 +3,8 @@ const app = express();
 const path = require('path');
 require('dotenv').config();  
 const cookieParser = require('cookie-parser');
+const session  = require('express-session');
+const MongoStore = require('connect-mongo');
 const dbConnect = require('./db/dbfile.js');
 app.set('veiw engine',"ejs");
 app.set('veiws',path.join(__dirname,'veiws'));
@@ -17,6 +19,18 @@ dbConnect().then(()=>{
 }).catch((err)=>{
     console.log(`Cant Connect To the db ${err}`); 
 })
+// console.log(session,"express-seeion",MongoStore,"Connect Mongo");
+// Initializing Sessions :
+app.use(session({
+    secret: `${process.env.SECRET_KEY}`, // Change this to a random string
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: `${process.env.MONGO_URI}` }),
+    cookie: { maxAge: 180 * 60 * 1000 } // Session expiration time
+}));
+
+
+
 let quoteArray = [
     {
     _id:1,
@@ -87,6 +101,11 @@ app.get('/',(req,res)=>{
 app.get('/table',(req,res)=>{   
   res.render('table.ejs',{data:quoteArray});
  })
+
+ app.get('/login',(req,res)=>{   
+    res.render('login.ejs');
+   })
+   
 
 app.listen(process.env.PORT_NUMBER,()=>{
   console.log(`listening to the portNumber ${process.env.PORT_NUMBER}`); 
